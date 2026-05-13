@@ -12,20 +12,20 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Rust
+# Rust
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
-# Install Solana / Anza CLI
+# Solana CLI
 RUN sh -c "$(curl -sSfL https://release.anza.xyz/stable/install)"
 
-# Clone Equium source
+# Clone repo
 WORKDIR /app
 RUN git clone https://github.com/HannaPrints/equium.git .
 
 # Build miner
 RUN cargo build -p equium-cli-miner --release
 
-# Copy startup script
+# Startup
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
